@@ -1,2 +1,2 @@
-variable "env" {}
-variable "subnet_ids" {}
+# variable "env" {}
+# variable "subnet_ids" {}
