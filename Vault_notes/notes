@@ -1,0 +1,259 @@
+https://developer.hashicorp.com/vault/docs
+Steps:
+=====
+1.Launch two instances,vault_server,test
+2.click on install on top of the menu
+3.choose RHEL/CentOS, under this copy and install in ssh linux server
+4. after installation completes,
+check vault status:systemctl status vault
+status is not active
+start vault service: systemctl start vault
+search vault : ps -ef | grep vault
+check port number: netstat -lntp
+open browser with vault public id along with port number
+click on proceed.
+click on proceed public ip
+it displays one popup dialog box
+In vault dialog box give 1 and 1 then click
+it generate a key, that key is important i.e initial root token
+click on continue to unseal
+copy the generate key earlier and paste,then click
+sign in to vault: use root token to authenticate
+vault dashboard appears
+**************************
+1.start creating a secrets
+click on secret engine
+click on new secret engine
+click on kv,enter customized name in path variable---click on enable engine
+create secret engine:
+ path for secret:test
+ secret data:admin pwd : admin123---click on Add, click on save
+ the above lines is for to store secrets
+ ================================================
+ then get this secret info. from another server in ssh(test instance)
+ install ansible and terraform
+ search hashicorp vault in ansible
+ - debug:
+     msg: "{{ lookup('hashi_vault', 'secret=expense/data/test token=paste roottoken url=https://vaultserver ip:8200' validate_Certs=false)}}"
+     here vaultserver ip where vault installed
+     sudo pip3.11 install hvac
+
+ terraform hashicorp vault:
+ vault provider
+ ==============
+ provider "vault"{
+ address = "https://vaultserver:8900"
+ skip_tls_verify=true
+ token = root token
+ }
+ data "vault_generic_secret" "rundeck_auth"{
+ path ="expense/test"
+ }
+ output "data"{
+ value = data.vault_generic_secret.rundeck_auth
+ }
+ here output will not display in the console, so for this we can store the data in a file
+ search file in terraform
+ resource "local_file" "foo"{
+ content=data.vault_generic_secret.rundeck_auth.data_json
+ filename = expense/test
+ }
+
+through automation:
+===================
+provide least permissions means ec2:describeInstances
+click on iam,click on policy,choose ec2 in drop down , click on lists , choose ec2DescribeInstanceTypes
+merge two lists in action inside policy
+concat(list1,list2)----know about in terraform
+
+
+"Initial root_token": "hvs.jCflCspIGEY4rMIgtbnio7rM"
+key: zAh147dntUEaN1T1lVJILp5VBkGAd0RlGS49QGXjRE8=
+
+
+namespaces means secret engine
+vault_mount: to enable secret engine
+
+
+rook token: hvs.r9DKNFuxQEEnwpkmMbnNqsp6
+key : ZQ9CQzHXvvjGSyKQePwBCkYKLbz2U7JwzbvI5fhsag4=
+
+
+Session32: (how to encrypt secret plain text from vault)  to run through GOCD
+=========
+To encrypt a plain text value
+curl 'http://54.196.151.46:8153/go/api/admin/encrypt' \
+-H 'Accept: application/vnd.go.cd.v1+json' \
+-H 'Content-Type: application/json' \
+-X POST -d '{
+  "value": "Gocd Server"
+}'
+generate a token as "encrypted_value"
+copy this token in pipelines with "secutiry_variables:"
+this is encrypt
+2. how to decrypt the plain text?
+security_variables:
+  TESTV: above generated token in pipleines
+in ansible.sh:
+=============
+env > /tmp/env
+cat /tmp/env
+
+now connect with vault server
+give all keys and root keys
+then generates key and root keys
+copy and paste all the credential keys
+
+$ curl 'https://gocdip:port/go/api/admin/encrypt' \
+-H 'Accept: application/vnd.go.cd.v1+json' \
+-H 'Content-Type: application/json' \
+-X POST -d '{
+  "value": copy key
+}'
+* add secure_variables:
+     TF_VAR_vault_token: copy and paste generated token
+
+Provider.tf:
+===========
+1.provider "vault"{
+address= "https://vaultserver:port"
+token=
+vkls_certs in terraform
+}
+then run
+here connect to vault server address
+encrypt token generates
+
+2.how to decrypt the credentials and get from vault?
+to retrieve credentials from vault server
+data "aws_security_group" "security"
+{
+name="allow-all"
+}
+data "vault_generic_secret"{
+path ="common/ssh"
+}
+here path is common/ssh ,in this data is in the form of json
+how to get data from json?
+search get the data from json in terraform
+url: for json encode and decode
+https://spacelift.io/blog/terraform-jsonencode
+* in provisioner pass ssh.user = jsondecode(data.vault_generic_secret.ssh.data_json).user
+ssh.pass = jsondecode(data.vault_generic_secret.ssh.data_json).pass
+***************************************************************************************************
+In ansible how do we get credentials from vault server?
+* get hashicorp vault scret from curl command?
+in root module create one secret_vault.yml file
+in ansible.sh: ansible-playbook secret_vault.yml -e vault_token = $vault_token
+copy secure_variable in backend.yml file
+* search hashicorp vault in ansible module:
+search "create a file with content in ansible module"
+secret_vault.yml:
+================
+- name: Get Secrets
+  hosts: localhost
+  tasks:
+    - name: create a file
+      ansible.builtin.linefile:
+        path: /tmp/test
+        line: "username: {{ lookup('hashi_vault', 'secret=common/test:value token=c975b780-d1be-8016-866b-01d0f9b688a5 url=http://myvault:8200')}}"
+       create : true
+in the above line "line is a content so get the credentials from vault "
+
+suppose if the file is not available(line) use "create: true"
+then will get credentials in the form of json object.
+* get json credentials : how to get credentials from json in ansible?
+
+
+
+&&&&&&&&&&&&********************************************************************************************************************
+1. Install vault
+* sudo yum install -y yum-utils
+* sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+* sudo yum -y install vault
+* sudo systemctl status vault
+* sudo systemctl start vault
+* netstat -lntp
+open browser with vault server and port ex:https://100.26.61.51:8200
+click on Advanced
+click on Continue,appears vault page
+enter keyshares and keythresholds like 1,2,3 any one key,click on initialize
+generates Initial root token and key
+Initial root token
+====================
+hvs.tyEMRhd9Ms8lvUUU1ML0kYtp
+
+Key 1
+=====
+NMXQ3Cl2iQUvKi/8u5IF1/a/q9hgbrPYUI+TZVIxMc0=
+click "continue to unseal"
+* Enter unseal portion with key,appears sign into vault
+* enter token and click
+* click on details
+* click enable new engine,choose Generic,appears "Enable a secrets engine" (call it as "mount-secret-backend")
+* enter path: with some name like "expense",click on "enable engine"
+* click on "create secret"
+path for this secret: demo
+secret data : test(user) , test123(password)
+
+******************************************************
+1. how to get credentials from hashicorp vault in ansible?
+* sudo pip3.11 install hvac
+* add validate_certs=false(to allow vault server directly)
+- name: get credentials from hashicorp vault
+  hosts: localhost
+  tasks:
+    - name: get credentials
+      ansible.builtin.debug:
+        msg:  "{{ lookup('hashi_vault', 'secret=/expense/data/demo  token=hvs.tyEMRhd9Ms8lvUUU1ML0kYtp  url=https://100.26.61.51:8200 validate_certs=false')}}"
+      1. url=https://100.26.61.51:8200----open vault page
+      2. validate_certs=false ---allow
+      3. Directly move to "sign into vault" page ,token=hvs.tyEMRhd9Ms8lvUUU1ML0kYtp
+      4. get credentials: /expense/data/demo
+      5. credentials will get in the form of json objects
+
+    using terraform:
+    ================
+     skip_tls_verify =true no verfication , if required add false
+
+      9: output "get_cred"{
+    │
+    │ To reduce the risk of accidentally exporting sensitive data that was intended to be only internal, Terraform requires that any root module output
+    │ containing sensitive data be explicitly marked as sensitive, to confirm your intent.
+    │
+    │ If you do intend to export this data, annotate the output value as sensitive by adding the following argument:
+    │     sensitive = true
+
+    for sensitive data "output will not support to display on cli"
+    for this create a file and store this sensitive data
+    **local_file (Resource)
+      Generates a local file with the given content.
+      resource "local_file" "foo" {
+        content  = "foo!"
+        filename = "${path.module}/foo.bar"
+      }
+
+      same steps follow for automation
+
+
+curl 'http://54.221.1.189:8153/go/api/admin/encrypt' \
+-H 'Accept: application/vnd.go.cd.v1+json' \
+-H 'Content-Type: application/json' \
+-X POST -d '{
+  "value": "hvs.jUJeWSfOihA8RVtnhx9FbHLi"
+}'
+"AES:78UxNlQWrxlX9qvpkpZPCg==:SeQ7Y1aZt/qm0SHHrJWo5pbcYrronmIYp4SUo8l5Fdo="
+
+14/05
+
+Initial root token
+hvs.jUJeWSfOihA8RVtnhx9FbHLi
+
+
+Key 1
+2KAquvzgy5ALTSmLfBNza6ZFfbzE5qs31C+Stm25Ask=
+
+ "AES:SUjTbDfiAUTVz96BzdU0Mw==:c3DhvBk5xFFfw+d0TaZI5lvM8qD+Cb/jvLirOwgeNqM="
+
+
+
