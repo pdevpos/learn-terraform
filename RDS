@@ -1,0 +1,17 @@
+engine options --mysql
+engine version ---8.0.36
+Availability and Durability:Single Instance
+type of the cluster
+name -->identifier
+credential settings:
+====================
+click on self managed
+master username password
+Instance Configuration:
+=======================
+click on Burstable classes:db.t3.micro
+storage:
+allocated storage : 200GiB
+create a subnet group
+Public access : no
+security group:
