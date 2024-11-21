@@ -7,7 +7,7 @@ resource "aws_db_instance" "db_instance" {
   engine_version         = var.engine_version
   username               = "myadmin"
   password               = "ExpenseApp123"
-  parameter_group_name   = "aws_db_parameter_group.parameter_group"
+  parameter_group_name   = aws_db_parameter_group.parameter_group
   skip_final_snapshot    = var.skip_final_snapshot
   multi_az               = false
   storage_type           = var.storage_type
