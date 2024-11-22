@@ -60,11 +60,11 @@ resource "aws_route_table" "frontend_route" {
     vpc_peering_connection_id = aws_vpc_peering_connection.peer.id
 
   }
-  route {
-    cidr_block ="0.0.0.0/0"
-   nat_gateway_id = aws_nat_gateway.nat[count.index].id
-
-  }
+#   route {
+#     cidr_block ="0.0.0.0/0"
+#    nat_gateway_id = aws_nat_gateway.nat[count.index].id
+#
+#   }
   tags = {
     Name = "frontend-rt-${count.index}"
   }
@@ -78,11 +78,11 @@ resource "aws_route_table" "backend_route" {
     vpc_peering_connection_id = aws_vpc_peering_connection.peer.id
 
   }
-  route {
-    cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.nat[count.index].id
-
-  }
+#   route {
+#     cidr_block = "0.0.0.0/0"
+#     nat_gateway_id = aws_nat_gateway.nat[count.index].id
+#
+#   }
   tags = {
     Name = "backend-rt-${count.index}"
   }
@@ -96,11 +96,11 @@ resource "aws_route_table" "db_route" {
     vpc_peering_connection_id = aws_vpc_peering_connection.peer.id
 
   }
-  route {
-    cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.nat[count.index].id
-
-  }
+#   route {
+#     cidr_block = "0.0.0.0/0"
+#     nat_gateway_id = aws_nat_gateway.nat[count.index].id
+#
+#   }
   tags = {
     Name = "db-rt-${count.index}"
   }
@@ -122,19 +122,19 @@ resource "aws_route_table" "public_route" {
     Name = "public-rt-${count.index}"
   }
 }
-resource "aws_eip" "eip" {
-  count = length(var.public-subnets)
-  domain   = "vpc"
-}
-resource "aws_nat_gateway" "nat" {
-  count = length(var.public-subnets)
-  allocation_id = aws_eip.eip[count.index].id
-  subnet_id = aws_subnet.public_subnets[count.index].id
-
-  tags = {
-    Name = "nat-gw"
-  }
-}
+# resource "aws_eip" "eip" {
+#   count = length(var.public-subnets)
+#   domain   = "vpc"
+# }
+# resource "aws_nat_gateway" "nat" {
+#   count = length(var.public-subnets)
+#   allocation_id = aws_eip.eip[count.index].id
+#   subnet_id = aws_subnet.public_subnets[count.index].id
+#
+#   tags = {
+#     Name = "nat-gw"
+#   }
+# }
 resource "aws_route_table_association" "frontend_ass" {
   count = length(var.frontend-subnets)
   subnet_id      = aws_subnet.frontend_subnets[count.index].id
