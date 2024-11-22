@@ -42,7 +42,7 @@
 module "rds"{
   source = "./module/rds"
   env = var.env
-  subnet_ids = module.vpc.backend_subnets
+  subnet_ids = module.vpc.db_subnets
   engine = "mysql"
   engine_version = "8.0.36"
   component = "rds"
