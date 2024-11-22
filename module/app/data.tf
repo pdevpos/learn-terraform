@@ -4,6 +4,6 @@ data "aws_ami" "ami" {
   owners           = [973714476881]
 }
 data "vault_generic_secret" "vault-secrets" {
-  path = "common/rds"
+  path = "expense/ssh"
 }
 
