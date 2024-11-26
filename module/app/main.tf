@@ -79,8 +79,9 @@ resource "null_resource" "provisioner" {
     }
     inline = [
       "sudo pip3.11 install ansible",
-      "ansible-pull -i localhost. -U https://github.com/devps23/expense-ansible get_secrets_vault.yml -e env=${var.env} -e componente_name=${var.component} -e vault_token=${var.vault_token}",
-      "ansible-pull -i localhost, -U https://github.com/devps23/expense-ansible expense.yml -e env=${var.env} -e component_name=${var.component} -e @secrets.json -e app.json"
+      "ansible-pull -i localhost. -U https://github.com/pdevpos/learn-ansible get_secrets_vault.yml -e env=${var.env} -e component_nam=${var.component} -e vault_token=${var.vault_token}",
+       "ansible-pull -i localhost, -U https://github.com/pdevpos/learn-ansible expense.yml -e env=${var.env} -e component_name=${var.component} -e @~/secrets.json"
+#       "ansible-pull -i localhost, -U https://github.com/pdevpos/learn-ansible expense.yml -e env=${var.env} -e component_name=${var.component} -e @secrets.json -e app.json"
 
     ]
   }
