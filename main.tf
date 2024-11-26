@@ -53,6 +53,7 @@ module "rds"{
   vpc_id = module.vpc.vpc_id
   access_sg_app_port = var.backend-subnets
   skip_final_snapshot = true
+  kms_key_id = var.kms_key_id
 }
 # module "mysql" {
 #   source = "./module/app"
