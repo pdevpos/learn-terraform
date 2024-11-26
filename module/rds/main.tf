@@ -15,7 +15,7 @@ resource "aws_db_instance" "db_instance" {
   db_subnet_group_name   = aws_db_subnet_group.db_subnet_group.name
   storage_encrypted      = true
   kms_key_id             = var.kms_key_id
-  vpc_security_group_ids = [aws_security_group.aws_security.id]                      =
+  vpc_security_group_ids = [aws_security_group.aws_security.id]
 }
 resource "aws_db_parameter_group" "parameter_group" {
   name   = "${var.component}-${var.env}-pg"
