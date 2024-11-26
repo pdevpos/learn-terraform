@@ -13,3 +13,4 @@ ssh_user = "ec2-user"
 ssh_pass = "DevOps321"
 bastion_nodes = ["172.31.39.175/32"]
 vault_token = "hvs.euEam4HUc3gK3ONTmkrZIofp"
+kms_key_id = "arn:aws:kms:us-east-1:041445559784:key/01c408a9-ea33-4d92-b183-a144056b8276"

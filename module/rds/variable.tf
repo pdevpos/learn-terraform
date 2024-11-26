@@ -10,3 +10,4 @@ variable "subnet_ids"{}
 variable "storage_type"{}
 variable "vpc_id"{}
 variable "access_sg_app_port"{}
+variable "kms_key_id"{}
