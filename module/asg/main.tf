@@ -37,7 +37,7 @@ resource "aws_autoscaling_group" "ags" {
   tag {
     key                 = "Name"
     propagate_at_launch = true
-    value               = "yes"
+    value               = "${var.component}-${var.env}"
   }
 }
 resource "aws_lb_target_group" "target" {
