@@ -100,7 +100,8 @@ source = "./module/asg"
   app_port = 8080
   availability_zone = var.availability_zone
   bastion_nodes = var.bastion_nodes
-  component = "${var.component}-${var.env}-asg"
+  component = "backend-dev"
   env = var.env
-  vpc_id = var.vpc_id
+  vpc_id = module.vpc.vpc_id
+  vault_token = var.vault_token
 }
