@@ -35,7 +35,7 @@ resource "aws_autoscaling_group" "ags" {
     }
 }
 resource "aws_lb_target_group" "target" {
-  count                = var.lb_tg_group ? 1 : 0
+
   name                 = "${var.env}-${var.component}-tg"
   port                 = var.app_port
   protocol             = "HTTP"
@@ -64,8 +64,7 @@ resource "aws_lb" "lb" {
   }
 }
 resource "aws_lb_listener" "listener" {
-  count                   =  var.lb_req ? 1 : 0
-  load_balancer_arn       =  aws_lb.lb[0].arn
+  load_balancer_arn       =  aws_lb.lb.arn
   port                    =  var.app_port
   protocol                =  "HTTP"
   default_action {
