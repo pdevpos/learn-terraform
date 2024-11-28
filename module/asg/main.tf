@@ -53,25 +53,25 @@ resource "aws_lb_target_group" "target" {
     Name = "${var.env}-${var.component}-tg"
   }
 }
-resource "aws_lb" "lb" {
-  name               = "${var.env}-${var.component}-lb"
-  internal           = var.lb_internet_type == "public" ? false : true
-  load_balancer_type = "application"
-#   subnets            = var.lb_subnets
-  security_groups    = [aws_security_group.security.id]
-  tags = {
-    Environment      = "${var.env}-${var.component}-lb"
-  }
-}
-resource "aws_lb_listener" "listener" {
-  load_balancer_arn       =  aws_lb.lb.arn
-  port                    =  var.app_port
-  protocol                =  "HTTP"
-  default_action {
-    type                  =  "forward"
-    target_group_arn      =   aws_lb_target_group.target.arn
-  }
-}
+# resource "aws_lb" "lb" {
+#   name               = "${var.env}-${var.component}-lb"
+#   internal           = var.lb_internet_type == "public" ? false : true
+#   load_balancer_type = "application"
+# #   subnets            = var.lb_subnets
+#   security_groups    = [aws_security_group.security.id]
+#   tags = {
+#     Environment      = "${var.env}-${var.component}-lb"
+#   }
+# }
+# resource "aws_lb_listener" "listener" {
+#   load_balancer_arn       =  aws_lb.lb.arn
+#   port                    =  var.app_port
+#   protocol                =  "HTTP"
+#   default_action {
+#     type                  =  "forward"
+#     target_group_arn      =   aws_lb_target_group.target.arn
+#   }
+# }
 resource "aws_autoscaling_policy" "scaling_policy" {
   autoscaling_group_name = "${var.env}-${var.component}-asg"
   policy_type = "TargetTrackingScaling"
