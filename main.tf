@@ -39,6 +39,17 @@
 #   add_sg_app_port = concat(var.frontend-subnets,var.backend-subnets)
 #   access_sg_app_port = var.frontend-subnets
 #   }
+module "backend"{
+  source = "./module/asg"
+  add_sg_app_port   = var.backend-subnets
+  app_port          = 8080
+  availability_zone = var.availability_zone
+  bastion_nodes     = var.bastion_nodes
+  component         = "backend-${var.env}-asg"
+  env               = var.env
+  vpc_id            = module.vpc.vpc_id
+  vault_token       = var.vault_token
+}
 module "rds"{
   source = "./module/rds"
   env = var.env
@@ -82,4 +93,14 @@ module "vpc" {
   default_route-table_id = var.default_route-table_id
   public-subnets = var.public-subnets
 
+}
+module "ags"{
+source = "./module/asg"
+  add_sg_app_port = var.access_sg_app_port
+  app_port = 8080
+  availability_zone = var.availability_zone
+  bastion_nodes = var.bastion_nodes
+  component = "${var.component}-${var.env}-asg"
+  env = var.env
+  vpc_id = var.vpc_id
 }
