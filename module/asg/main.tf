@@ -1,5 +1,5 @@
 resource "aws_launch_template" "launch_template" {
-#   name                 = "${var.env}-${var.component}"
+   name                 = "${var.env}-${var.component}"
   image_id             = data.aws_ami.ami.id
   instance_type        = "t3.small"
 
@@ -25,7 +25,7 @@ block_device_mappings {
 
 resource "aws_autoscaling_group" "ags" {
   availability_zones = var.availability_zone
-    name               = "${var.component}-${var.env}-ags"
+    name               = "${var.component}-${var.env}"
   min_size             = 1
   max_size             = 3
   desired_capacity     = 1
