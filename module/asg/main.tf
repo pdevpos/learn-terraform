@@ -73,7 +73,7 @@ resource "aws_lb_target_group" "target" {
 #   }
 # }
 resource "aws_autoscaling_policy" "scaling_policy" {
-  autoscaling_group_name = "${var.env}-${var.component}-asg"
+  autoscaling_group_name = aws_autoscaling_group.ags.name
   policy_type = "TargetTrackingScaling"
 
   target_tracking_configuration {
@@ -83,7 +83,7 @@ resource "aws_autoscaling_policy" "scaling_policy" {
 
     target_value = 10
   }
-  name = "${var.env}-${var.component}-asg"
+  name = "${var.env}-${var.component}"
 }
 resource "aws_security_group" "security" {
   name        = "security-${var.component}-${var.env}"
