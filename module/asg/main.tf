@@ -69,7 +69,7 @@ resource "aws_lb_listener" "listener" {
   protocol                =  "HTTP"
   default_action {
     type                  =  "forward"
-    target_group_arn      =   aws_lb_target_group.target[0].arn
+    target_group_arn      =   aws_lb_target_group.target.arn
   }
 }
 resource "aws_autoscaling_policy" "scaling_policy" {
