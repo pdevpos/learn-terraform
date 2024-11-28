@@ -11,7 +11,7 @@ block_device_mappings {
       volume_size             = 20
       volume_type             = "gp3"
       delete_on_termination   = true
-      encrypted               = "Not Encrypted"
+      encrypted               = false
     }
   }
   user_data = base64encode(templatefile("${path.module}/userdata.sh", {
