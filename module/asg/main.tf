@@ -1,5 +1,5 @@
 resource "aws_launch_template" "launch_template" {
-  name                 = "${var.env}-${var.component}"
+#   name                 = "${var.env}-${var.component}"
   image_id             = data.aws_ami.ami.id
   instance_type        = "t3.small"
 
