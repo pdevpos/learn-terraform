@@ -21,7 +21,7 @@ block_device_mappings {
   }))
 
 }
-}
+
 
 resource "aws_autoscaling_group" "ags" {
   availability_zones = var.availability_zone
