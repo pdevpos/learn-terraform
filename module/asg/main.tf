@@ -1,6 +1,6 @@
 resource "aws_launch_template" "launch_template" {
   name                 = "${var.env}-${var.component}"
-  ami                  = data.aws_ami.ami.arn
+  image_id             = data.aws_ami.ami.id
   instance_type        = "t3.small"
 
 block_device_mappings {
