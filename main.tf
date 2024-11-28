@@ -50,22 +50,22 @@ module "backend"{
   vpc_id            = module.vpc.vpc_id
   vault_token       = var.vault_token
 }
-module "rds"{
-  source = "./module/rds"
-  env = var.env
-  subnet_ids = module.vpc.db_subnets
-  engine = "mysql"
-  engine_version = "8.0.36"
-  component = "rds"
-  allocated_storage = 20
-  family = "mysql8.0"
-  instance_class = "db.t3.micro"
-  storage_type = "gp3"
-  vpc_id = module.vpc.vpc_id
-  access_sg_app_port = var.backend-subnets
-  skip_final_snapshot = true
-  kms_key_id = var.kms_key_id
-}
+# module "rds"{
+#   source = "./module/rds"
+#   env = var.env
+#   subnet_ids = module.vpc.db_subnets
+#   engine = "mysql"
+#   engine_version = "8.0.36"
+#   component = "rds"
+#   allocated_storage = 20
+#   family = "mysql8.0"
+#   instance_class = "db.t3.micro"
+#   storage_type = "gp3"
+#   vpc_id = module.vpc.vpc_id
+#   access_sg_app_port = var.backend-subnets
+#   skip_final_snapshot = true
+#   kms_key_id = var.kms_key_id
+# }
 # module "mysql" {
 #   source = "./module/app"
 #   instance_type = var.instance_type
