@@ -1,7 +1,14 @@
 resource "aws_launch_template" "launch_template" {
    name                 = "${var.env}-${var.component}"
   image_id             = data.aws_ami.ami.id
-  instance_type        = "t3.small"
+  instance_type        = "t3.micro"
+  instance_market_options {
+    market_type = "spot"
+    spot_options {
+      instance_interruption_behavior = "stop"
+      spot_instance_type             = "persistent"
+    }
+  }
 
 block_device_mappings {
     device_name = "/dev/sda1"
@@ -39,6 +46,7 @@ resource "aws_autoscaling_group" "ags" {
     propagate_at_launch = true
     value               = "${var.component}-${var.env}"
   }
+  load_balancers = [aws_lb_target_group.target.arn]
 }
 resource "aws_lb_target_group" "target" {
 
@@ -90,7 +98,6 @@ resource "aws_autoscaling_policy" "scaling_policy" {
     target_value = 10
   }
   name = "${var.env}-${var.component}"
-
 }
 resource "aws_security_group" "security" {
   name        = "security-${var.component}-${var.env}"
