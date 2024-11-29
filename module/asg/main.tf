@@ -2,13 +2,13 @@ resource "aws_launch_template" "launch_template" {
    name                 = "${var.env}-${var.component}"
   image_id             = data.aws_ami.ami.id
   instance_type        = "t3.micro"
-  instance_market_options {
-    market_type = "spot"
-    spot_options {
-      instance_interruption_behavior = "stop"
-      spot_instance_type             = "persistent"
-    }
-  }
+#   instance_market_options {
+#     market_type = "spot"
+#     spot_options {
+#       instance_interruption_behavior = "stop"
+#       spot_instance_type             = "persistent"
+#     }
+#   }
 
 block_device_mappings {
     device_name = "/dev/sda1"
