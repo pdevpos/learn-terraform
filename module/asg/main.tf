@@ -46,7 +46,7 @@ resource "aws_autoscaling_group" "ags" {
     propagate_at_launch = true
     value               = "${var.component}-${var.env}"
   }
-  load_balancers = [aws_lb_target_group.target.arn]
+#   load_balancers = [aws_lb_target_group.target.arn]
 }
 resource "aws_lb_target_group" "target" {
 
