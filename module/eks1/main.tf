@@ -33,10 +33,11 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSVPCResourceController" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
   role       = aws_iam_role.eks_iam_role.name
 }
+
 # to create nodegroup
-resource "aws_eks_node_group" "example" {
+resource "aws_eks_node_group" "node_group" {
   cluster_name    = aws_eks_cluster.eks_cluster.name
-  node_group_name = "example"
+  node_group_name = "${var.env}-${var.component}-node"
   node_role_arn   = aws_iam_role.iam_node_role.arn
   subnet_ids      = var.eks_subnets
   capacity_type   = "SPOT"
@@ -44,6 +45,9 @@ resource "aws_eks_node_group" "example" {
     desired_size = 1
     max_size     = 2
     min_size     = 1
+  }
+  launch_template {
+    version = "$Latest"
   }
   tags = {
     Name = "${var.env}-${var.component}-eks-node"
@@ -99,3 +103,23 @@ resource "aws_security_group" "security" {
     Name = "sg-${var.component}-eks"
   }
 }
+resource "aws_launch_template" "launch_template" {
+  name          = "${var.env}-${var.component}-lauch-tmplt"
+  image_id      = data.aws_ami.ami.id
+  instance_type = "t2.micro"
+  block_device_mappings {
+    device_name = "/dev/sda1"
+
+
+    ebs {
+      volume_size           = 20
+      volume_type           = "gp3"
+      delete_on_termination = true
+      encrypted             = true
+    }
+
+  }
+}
+# ASG is trying to use a KMS service, here there is no permission to access KMS service by ASG.
+#KMS service need to add to ASG config
+#KMS is mandatory
