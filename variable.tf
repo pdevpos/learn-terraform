@@ -13,17 +13,17 @@ variable "bastion_nodes"{}
 variable "ssh_user"{}
 variable "ssh_pass"{}
 variable "vault_token"{}
-# variable "engine"{}
-# variable "engine_version"{}
-# variable "component"{}
-# variable "allocated_storage"{}
-# variable "skip_final_snapshot"{}
-# variable "family"{}
-# variable "instance_class"{}
-# variable "storage_type"{}
-# variable "vpc_id"{}
+variable "engine"{}
+variable "engine_version"{}
+variable "allocated_storage"{}
+variable "skip_final_snapshot"{}
+variable "family"{}
+variable "instance_class"{}
+variable "storage_type"{}
+variable "vpc_id"{}
 variable "access_sg_app_port"{}
 variable "kms_key_id"{}
+variable "eks_subnets"{}
 
 
 

@@ -1,0 +1,13 @@
+* create eks cluster name
+* create Cluster IAM role
+* create node groups
+* create Node IAM role
+* encryption : true
+* KMS key----pending
+* tags
+* Networking:
+vpc
+subnets
+security groups
+control plane logs: Authenticator
+Controller manager

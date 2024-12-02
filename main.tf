@@ -91,6 +91,14 @@ module "backend"{
 #   add_sg_app_port = var.backend-subnets
 #   vault_token = var.vault_token
 # }
+module "eks"{
+  source = "./module/eks1"
+  env = var.env
+  eks_subnets = var.eks_subnets
+  bastion_nodes = var.bastion_nodes
+  component = "ekd"
+  vpc_id = module.vpc.vpc_id
+}
 module "vpc" {
   source = "./module/vpc"
   env = var.env
