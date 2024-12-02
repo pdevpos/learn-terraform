@@ -5,22 +5,28 @@ resource "aws_kms_alias" "my_key_alias" {
   name = "alias/test"
   target_key_id = aws_kms_key.kms_key.id
 }
-resource "aws_kms_key_policy" "kms_key_policy" {
-  key_id = aws_kms_key.kms_key.id
+resource "aws_kms_key" "kms_key" {
+  description = "KMS key for Auto Scaling service role"
+  key_usage   = "ENCRYPT_DECRYPT"
   policy = jsonencode({
-    Id = "kms_key-id"
-    Statement = [
+    "Version": "2012-10-17",
+    "Statement": [
       {
-        Action = "kms:*"
-        Effect = "Allow"
-        Principal = {
-          AWS = "arn:aws:iam::aws:policy/service-role/AWSServiceRoleForAutoScaling"
-        }
-
-        Resource = "*"
-        Sid      = "Enable IAM User Permissions"
-      },
+        "Effect": "Allow",
+        "Principal": {
+          "Service": "autoscaling.amazonaws.com"
+        },
+        "Action": [
+          "kms:Encrypt",
+          "kms:Decrypt",
+          "kms:ReEncrypt*",
+          "kms:GenerateDataKey*",
+          "kms:DescribeKey"
+        ],
+        "Resource": "*"
+      }
     ]
-    Version = "2012-10-17"
   })
 }
+
+
