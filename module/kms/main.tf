@@ -20,31 +20,6 @@ resource "aws_kms_key" "kms_key" {
         "Resource": "*"
       },
       {
-        "Sid": "Allow access for Key Administrators",
-        "Effect": "Allow",
-        "Principal": {
-          "AWS": "arn:aws:iam::041445559784:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
-        },
-        "Action": [
-          "kms:Create*",
-          "kms:Describe*",
-          "kms:Enable*",
-          "kms:List*",
-          "kms:Put*",
-          "kms:Update*",
-          "kms:Revoke*",
-          "kms:Disable*",
-          "kms:Get*",
-          "kms:Delete*",
-          "kms:TagResource",
-          "kms:UntagResource",
-          "kms:ScheduleKeyDeletion",
-          "kms:CancelKeyDeletion",
-          "kms:RotateKeyOnDemand"
-        ],
-        "Resource": "*"
-      },
-      {
         "Sid": "Allow use of the key",
         "Effect": "Allow",
         "Principal": {
