@@ -2,15 +2,7 @@ resource "aws_launch_template" "launch_template" {
    name                 = "${var.env}-${var.component}"
   image_id             = data.aws_ami.ami.id
   instance_type        = "t3.micro"
-#   instance_market_options {
-#     market_type = "spot"
-#     spot_options {
-#       instance_interruption_behavior = "stop"
-#       spot_instance_type             = "persistent"
-#     }
-#   }
-
-block_device_mappings {
+  block_device_mappings {
     device_name = "/dev/sda1"
 
 
@@ -18,7 +10,7 @@ block_device_mappings {
       volume_size             = 20
       volume_type             = "gp3"
       delete_on_termination   = true
-      encrypted               = false
+      encrypted               = true
     }
 
   }
