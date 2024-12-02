@@ -2,7 +2,7 @@ resource "aws_kms_key" "kms_key" {
   description = "kms key"
 }
 resource "aws_kms_alias" "my_key_alias" {
-  name = "test"
+  name = "alias/test"
   target_key_id = aws_kms_key.kms_key.id
 }
 resource "aws_kms_key_policy" "kms_key_policy" {
