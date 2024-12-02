@@ -20,7 +20,7 @@ variable "ssh_pass"{}
 # variable "family"{}
 # variable "instance_class"{}
 # variable "storage_type"{}
-variable "vpc_id"{}
+# variable "vpc_id"{}
 # variable "access_sg_app_port"{}
 # variable "kms_key_id"{}
 variable "eks-subnets"{}
