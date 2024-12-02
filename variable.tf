@@ -23,7 +23,7 @@ variable "ssh_pass"{}
 variable "vpc_id"{}
 # variable "access_sg_app_port"{}
 # variable "kms_key_id"{}
-variable "eks_subnets"{}
+variable "eks-subnets"{}
 
 
 
