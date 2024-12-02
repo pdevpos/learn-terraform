@@ -1,6 +1,10 @@
 resource "aws_kms_key" "kms_key" {
   description = "kms key"
 }
+resource "aws_kms_alias" "my_key_alias" {
+  name = "test"
+  target_key_id = aws_kms_key.kms_key.id
+}
 resource "aws_kms_key_policy" "kms_key_policy" {
   key_id = aws_kms_key.kms_key.id
   policy = jsonencode({
@@ -19,9 +23,4 @@ resource "aws_kms_key_policy" "kms_key_policy" {
     ]
     Version = "2012-10-17"
   })
-}
-resource "aws_kms_alias" "my_key_alias"
-{
-  name = "test"
-  target_key_id = aws_kms_key.kms_key.id
 }
