@@ -8,7 +8,11 @@ resource "aws_eks_cluster" "eks_cluster" {
  }
   encryption_config {
     resources = ["secrets"]
+    provider {
+      key_arn = "arn:aws:kms:us-east-1:041445559784:key/01c408a9-ea33-4d92-b183-a144056b8276"
+    }
   }
+
 tags = {
   Name = "${var.env}-${var.component}-cluster"
 }
