@@ -47,9 +47,9 @@ resource "aws_eks_node_group" "node_group" {
     max_size     = 2
     min_size     = 1
   }
-  launch_template {
-    version = "$Latest"
-  }
+#   launch_template {
+#     version = "$Latest"
+#   }
   tags = {
     Name = "${var.env}-${var.component}-eks-node"
   }
