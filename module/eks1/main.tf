@@ -109,15 +109,12 @@ resource "aws_launch_template" "launch_template" {
   instance_type = "t2.micro"
   block_device_mappings {
     device_name = "/dev/sda1"
-
-
     ebs {
       volume_size           = 20
       volume_type           = "gp3"
       delete_on_termination = true
       encrypted             = true
     }
-
   }
 }
 # ASG is trying to use a KMS service, here there is no permission to access KMS service by ASG.
