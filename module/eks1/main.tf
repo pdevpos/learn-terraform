@@ -50,6 +50,7 @@ resource "aws_eks_node_group" "node_group" {
   }
   launch_template {
     version = "$Latest"
+    name = "launch_template"
   }
   tags = {
     Name = "${var.env}-${var.component}-eks-node"
