@@ -91,9 +91,9 @@
 #   add_sg_app_port = var.backend-subnets
 #   vault_token = var.vault_token
 # }
-module "kms"{
-  source = "./module/kms"
-}
+# module "kms"{
+#   source = "./module/kms"
+# }
 module "eks"{
   source = "./module/eks1"
   env = var.env
