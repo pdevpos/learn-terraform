@@ -93,27 +93,25 @@
 # }
 module "kms"{
   source = "./module/kms"
-
 }
-# module "eks"{
-#   source = "./module/eks1"
-#   env = var.env
-#   eks_subnets = module.vpc.backend_subnets
-#   bastion_nodes = var.bastion_nodes
-#   component = "ekd"
-#   vpc_id = module.vpc.vpc_id
-# }
-# module "vpc" {
-#   source = "./module/vpc"
-#   env = var.env
-#   vpc_cidr_block = var.vpc_cidr_block
-#   availability_zone = var.availability_zone
-#   frontend-subnets = var.frontend-subnets
-#   backend-subnets = var.backend-subnets
-#   db-subnets =  var.db-subnets
-#   default_vpc_id = var.default_vpc_id
-#   default_vpc_cidr = var.default_vpc_cidr
-#   default_route-table_id = var.default_route-table_id
-#   public-subnets = var.public-subnets
-#
-# }
+module "eks"{
+  source = "./module/eks1"
+  env = var.env
+  eks_subnets = module.vpc.backend_subnets
+  bastion_nodes = var.bastion_nodes
+  component = "ekd"
+  vpc_id = module.vpc.vpc_id
+}
+module "vpc" {
+  source = "./module/vpc"
+  env = var.env
+  vpc_cidr_block = var.vpc_cidr_block
+  availability_zone = var.availability_zone
+  frontend-subnets = var.frontend-subnets
+  backend-subnets = var.backend-subnets
+  db-subnets =  var.db-subnets
+  default_vpc_id = var.default_vpc_id
+  default_vpc_cidr = var.default_vpc_cidr
+  default_route-table_id = var.default_route-table_id
+  public-subnets = var.public-subnets
+}
