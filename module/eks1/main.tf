@@ -53,13 +53,10 @@ resource "aws_eks_node_group" "node_group" {
     id = aws_launch_template.launch_template.id
 
   }
-  tags = [
-    {
-      key = "Name"
-      value = "MyAutoScalingGroup"
-      propagate_at_launch = true
-    },
-  ]
+  tags = {
+    Name = "${var.env}-${var.component}-node"
+  }
+
 
 }
 resource "aws_iam_role" "iam_node_role" {
