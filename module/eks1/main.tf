@@ -115,6 +115,12 @@ resource "aws_launch_template" "launch_template" {
       encrypted             = true
     }
   }
+  tag_specifications {
+    resource_type = "instance"
+    tags = {
+      Name = "${var.component}-${var.env}-launch-tmplt"
+    }
+  }
 }
 # ASG is trying to use a KMS service, here there is no permission to access KMS service by ASG.
 #KMS service need to add to ASG config
