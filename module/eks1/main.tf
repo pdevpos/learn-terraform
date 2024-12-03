@@ -50,11 +50,17 @@ resource "aws_eks_node_group" "node_group" {
   }
   launch_template {
     version = "$Latest"
-    name = aws_launch_template.launch_template.name
+    id = aws_launch_template.launch_template.id
+
   }
-  tags = {
-    Name = "${var.env}-${var.component}-eks-node"
-  }
+  tags = [
+    {
+      key = "Name"
+      value = "MyAutoScalingGroup"
+      propagate_at_launch = true
+    },
+  ]
+
 }
 resource "aws_iam_role" "iam_node_role" {
   name = "eks-node-group-example"
