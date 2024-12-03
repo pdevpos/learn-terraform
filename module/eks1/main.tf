@@ -41,6 +41,7 @@ resource "aws_eks_node_group" "node_group" {
   node_group_name = "${var.env}-${var.component}-node"
   node_role_arn   = aws_iam_role.iam_node_role.arn
   subnet_ids      = var.eks_subnets
+  instance_types = ["t2.micro"]
   capacity_type   = "SPOT"
   scaling_config {
     desired_size = 1
