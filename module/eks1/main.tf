@@ -1,6 +1,6 @@
 # to create aws eks cluster
 resource "aws_eks_cluster" "eks_cluster" {
-  name     = "${var.env}-${var.component}-cluster"
+  name     = "${var.env}-${var.component}-cluster1"
   role_arn = aws_iam_role.eks_iam_role.arn
 
  vpc_config {
@@ -36,28 +36,51 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSVPCResourceController" {
 }
 
 # to create nodegroup
-resource "aws_eks_node_group" "node_group" {
+# resource "aws_eks_node_group" "node_group" {
+#   cluster_name    = aws_eks_cluster.eks_cluster.name
+#   node_group_name = "${var.env}-${var.component}-node"
+#   node_role_arn   = aws_iam_role.iam_node_role.arn
+#   subnet_ids      = var.eks_subnets
+#   instance_types = ["t2.micro"]
+#   capacity_type   = "SPOT"
+#   scaling_config {
+#     desired_size = 1
+#     max_size     = 2
+#     min_size     = 1
+#   }
+#   launch_template {
+#     version = "$Latest"
+#     id = aws_launch_template.launch_template.id
+#
+#   }
+#   tags = {
+#     Name = "${var.env}-${var.component}-node"
+#   }
+#
+#
+# }
+resource "aws_eks_node_group" "main" {
   cluster_name    = aws_eks_cluster.eks_cluster.name
-  node_group_name = "${var.env}-${var.component}-node"
+  node_group_name = "${var.env}-eks-ng-1"
   node_role_arn   = aws_iam_role.iam_node_role.arn
   subnet_ids      = var.eks_subnets
-  instance_types = ["t2.micro"]
   capacity_type   = "SPOT"
+  instance_types  = ["t2.micro"]
+
+  launch_template {
+    name    = "eks-${var.env}"
+    version = "$Latest"
+  }
+
   scaling_config {
     desired_size = 1
     max_size     = 2
     min_size     = 1
   }
-  launch_template {
-    version = "$Latest"
-    id = aws_launch_template.launch_template.id
 
+  update_config {
+    max_unavailable = 1
   }
-  tags = {
-    Name = "${var.env}-${var.component}-node"
-  }
-
-
 }
 resource "aws_iam_role" "iam_node_role" {
   name = "eks-node-group-example"
