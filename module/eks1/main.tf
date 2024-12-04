@@ -65,12 +65,12 @@ resource "aws_eks_node_group" "main" {
   node_role_arn   = aws_iam_role.iam_node_role.arn
   subnet_ids      = var.eks_subnets
   capacity_type   = "SPOT"
-  instance_types  = ["t2.micro"]
+  instance_types  = ["t3.small"]
 
-  launch_template {
-    name    = "eks-${var.env}"
-    version = "$Latest"
-  }
+#   launch_template {
+#     name    = "eks-${var.env}"
+#     version = "$Latest"
+#   }
 
   scaling_config {
     desired_size = 1
@@ -132,23 +132,23 @@ resource "aws_security_group" "security" {
     Name = "sg-${var.component}-eks"
   }
 }
-resource "aws_launch_template" "launch_template" {
-  block_device_mappings {
-    device_name = "/dev/sda1"
-    ebs {
-      volume_size           = 20
-      volume_type           = "gp3"
-      delete_on_termination = true
-      encrypted             = true
-    }
-  }
-  tag_specifications {
-    resource_type = "instance"
-    tags = {
-      Name = "${var.component}-${var.env}-launch-tmplt"
-    }
-  }
-}
+# resource "aws_launch_template" "launch_template" {
+#   block_device_mappings {
+#     device_name = "/dev/sda1"
+#     ebs {
+#       volume_size           = 20
+#       volume_type           = "gp3"
+#       delete_on_termination = true
+#       encrypted             = true
+#     }
+#   }
+#   tag_specifications {
+#     resource_type = "instance"
+#     tags = {
+#       Name = "${var.component}-${var.env}-launch-tmplt"
+#     }
+#   }
+# }
 # ASG is trying to use a KMS service, here there is no permission to access KMS service by ASG.
 #KMS service need to add to ASG config
 #KMS is mandatory
