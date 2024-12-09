@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: entrypoint
+spec:
+  containers:
+    - name: centos
+      image: pavanidevops78/kubernetes:v5
+      env:
+        - name: url
+          value: http://google.com
+
