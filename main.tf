@@ -102,6 +102,7 @@
 #   component = "ekd"
 #   vpc_id = module.vpc.vpc_id
 # }
+
 module "vpc" {
   source = "./module/vpc"
   env = var.env
