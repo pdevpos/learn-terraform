@@ -162,13 +162,13 @@ resource "aws_eks_cluster" "cluster" {
     subnet_ids = var.eks_subnets
   }
 
-  encryption_config {
-    provider {
-      key_arn = "arn:aws:kms:us-east-1:041445559784:key/fdba9587-529f-456f-92c9-a9650d9accf3"
-
-    }
-    resources = ["secrets"]
-  }
+#   encryption_config {
+#     provider {
+#       key_arn = "arn:aws:kms:us-east-1:041445559784:key/fdba9587-529f-456f-92c9-a9650d9accf3"
+#
+#     }
+#     resources = ["secrets"]
+#   }
 
 }
 
