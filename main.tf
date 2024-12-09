@@ -94,14 +94,14 @@
 # module "kms"{
 #   source = "./module/kms"
 # }
-# module "eks"{
-#   source = "./module/eks1"
-#   env = var.env
-#   eks_subnets = module.vpc.backend_subnets
-#   bastion_nodes = var.bastion_nodes
-#   component = "ekd"
-#   vpc_id = module.vpc.vpc_id
-# }
+module "eks"{
+  source = "./module/eks1"
+  env = var.env
+  eks_subnets = module.vpc.backend_subnets
+  bastion_nodes = var.bastion_nodes
+  component = "ekd"
+  vpc_id = module.vpc.vpc_id
+}
 
 module "vpc" {
   source = "./module/vpc"
