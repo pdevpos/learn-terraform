@@ -200,7 +200,7 @@ resource "aws_eks_node_group" "main" {
   node_role_arn   = aws_iam_role.node-role.arn
   subnet_ids      = var.eks_subnets
   capacity_type   = "SPOT"
-  instance_types  = ["t3.large"]
+  instance_types  = ["t3.medium"]
 
 #   launch_template {
 #     name    = "eks-${var.env}"
