@@ -154,13 +154,7 @@
 # #KMS is mandatory
 
 
-resource "aws_eks_cluster" "cluster" {
-  name     = "${var.env}-eks"
-  role_arn = aws_iam_role.cluster-role.arn
 
-  vpc_config {
-    subnet_ids = var.eks_subnets
-  }
 
 #   encryption_config {
 #     provider {
@@ -170,7 +164,7 @@ resource "aws_eks_cluster" "cluster" {
 #     resources = ["secrets"]
 #   }
 
-}
+
 
 # resource "aws_launch_template" "main" {
 #   name = "eks-${var.env}"
@@ -193,10 +187,17 @@ resource "aws_eks_cluster" "cluster" {
 #     }
 #   }
 # }
+resource "aws_eks_cluster" "cluster" {
+name = "${var.env}-eks"
+role_arn = aws_iam_role.cluster-role.arn
 
+vpc_config {
+subnet_ids = var.eks_subnets
+}
+}
 resource "aws_eks_node_group" "main" {
   cluster_name    = aws_eks_cluster.cluster.name
-  node_group_name = "${var.env}-eks-ng-1"
+  node_group_name = "${var.env}-eks-ng"
   node_role_arn   = aws_iam_role.node-role.arn
   subnet_ids      = var.eks_subnets
   capacity_type   = "SPOT"
@@ -215,5 +216,8 @@ resource "aws_eks_node_group" "main" {
 
   update_config {
     max_unavailable = 1
+  }
+  tags = {
+    Name = "${var.env}-eks-ng"
   }
 }
